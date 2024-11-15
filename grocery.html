@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Grocery List App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+     <!-- Navigation Bar -->
+     <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contact.html">Community</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="grocery.html">Grocery List </a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Grocery List App</h1>
+
+    <form id="grocery-form">
+        <label for="id">Do I Have it at Home:</label>
+        <input type="text" id="id" name="id" required><br>
+        <label for="name">Item Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required><br>
+        <button type="button" id="add-item">Add Item</button>
+    </form>
+
+    <button id="load-data">Load Grocery List</button>
+
+    <table id="grocery-table" border="1">
+        <thead>
+            <tr>
+                <th>At Home</th>
+                <th>Food Name</th>
+                <th>Quantity Needed</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+
+        </tbody>
+    </table>
+
+    <script>
+        // Add an item to the grocery list
+        document.getElementById("add-item").onclick = async function () {
+            const id = document.getElementById("id").value;
+            const name = document.getElementById("name").value;
+            const quantity = document.getElementById("quantity").value;
+
+            try {
+                const response = await fetch("https://h6ffqnj4tl.execute-api.us-east-2.amazonaws.com/items", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id, name, quantity })
+                });
+
+                if (response.ok) {
+                    loadData(); // Refresh the table
+                } else {
+                    console.error("Error adding item:", await response.text());
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+            }
+        };
+
+        // Load the grocery list
+        async function loadData() {
+            try {
+                const response = await fetch("https://h6ffqnj4tl.execute-api.us-east-2.amazonaws.com/items");
+                if (response.ok) {
+                    const items = await response.json();
+                    const tableBody = document.getElementById("table-body");
+                    tableBody.innerHTML = "";
+
+                    // Populate the table with grocery items
+                    items.forEach(item => {
+                        const row = document.createElement("tr");
+
+                        const idCell = document.createElement("td");
+                        idCell.textContent = item.id;
+                        row.appendChild(idCell);
+
+                        const nameCell = document.createElement("td");
+                        nameCell.textContent = item.name;
+                        row.appendChild(nameCell);
+
+                        const quantityCell = document.createElement("td");
+                        quantityCell.textContent = item.quantity;
+                        row.appendChild(quantityCell);
+
+                        const actionCell = document.createElement("td");
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = "Delete";
+                        deleteButton.onclick = function () {
+                            deleteItem(item.id);
+                        };
+                        actionCell.appendChild(deleteButton);
+                        row.appendChild(actionCell);
+
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    console.error("Error loading data:", await response.text());
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+            }
+        }
+
+        // Delete an item from the grocery list
+        async function deleteItem(id) {
+            try {
+                const response = await fetch(`https://h6ffqnj4tl.execute-api.us-east-2.amazonaws.com/items/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    loadData(); // Refresh the table
+                } else {
+                    console.error("Error deleting item:", await response.text());
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+            }
+        }
+
+        // Attach event listener to the "Load Grocery List" button
+        document.getElementById("load-data").onclick = loadData;
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Reviews</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .reviews {
+            margin-top: 30px;
+        }
+        .review {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .review h4 {
+            margin: 0 0 10px;
+            color: #555;
+        }
+        .review p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contact.html">Community</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="grocery.html">Grocery List </a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Recipe Reviews</h1>
+        <p>Share your experience with the recipes you tried! Enter your username and leave a review below.</p>
+
+        <form id="review-form">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="review">Your Review:</label>
+                <textarea id="review" name="review" rows="5" placeholder="Write your review here..." required></textarea>
+            </div>
+            <button type="button" id="submit-review">Submit Review</button>
+        </form>
+
+        <div class="reviews" id="reviews">
+            <h2>Recent Reviews</h2>
+            <!-- Reviews will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission
+        document.getElementById('submit-review').onclick = function () {
+            const username = document.getElementById('username').value.trim();
+            const review = document.getElementById('review').value.trim();
+
+            if (username && review) {
+                // Create a new review element
+                const reviewContainer = document.createElement('div');
+                reviewContainer.classList.add('review');
+
+                const userHeader = document.createElement('h4');
+                userHeader.textContent = username;
+                reviewContainer.appendChild(userHeader);
+
+                const reviewText = document.createElement('p');
+                reviewText.textContent = review;
+                reviewContainer.appendChild(reviewText);
+
+                // Append the new review to the reviews section
+                document.getElementById('reviews').appendChild(reviewContainer);
+
+                // Clear the form fields
+                document.getElementById('username').value = '';
+                document.getElementById('review').value = '';
+            } else {
+                alert('Please fill out both fields before submitting your review.');
+            }
+        };
+    </script>
+</body>
+
+</html>
