@@ -1,0 +1,158 @@
+/* General Reset */
+body, h1, form, table {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #f5f5dc; /* Cream background */
+    color: #2f4f4f; /* Dark green text */
+    line-height: 1.6;
+}
+
+/* Header and Navigation Bar */
+header {
+    background-color: #006400; /* Dark green background */
+    color: #fff; /* White text */
+    padding: 1rem 0;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+header nav ul li {
+    display: inline;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+}
+
+header nav ul li a:hover {
+    background-color: #004c4c;
+    color: #d4e157;
+}
+/* Page Title */
+h1 {
+    text-align: center;
+    color: #006400; /* Dark green */
+    margin: 1rem 0;
+}
+
+/* Form Styling */
+form {
+    background-color: #fff; /* Cream-colored box */
+    border: 1px solid #006400; /* Dark green border */
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 600px;
+    margin: 1.5rem auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #006400; /* Dark green button */
+    color: #fff; /* White text */
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #004b23; /* Slightly darker green */
+}
+
+/* Table Styling */
+table {
+    width: 90%;
+    margin: 2rem auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #006400; /* Dark green */
+    color: #fff; /* White text */
+}
+
+thead th {
+    padding: 0.5rem;
+}
+
+tbody tr {
+    background-color: #fff; /* Cream-colored rows */
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light cream for alternate rows */
+}
+
+td, th {
+    padding: 0.75rem;
+    text-align: center;
+}
+
+td button {
+    background-color: #b22222; /* Red button for delete */
+    color: #fff;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+td button:hover {
+    background-color: #8b0000; /* Darker red on hover */
+}
+
+/* Load Button Styling */
+#load-data {
+    display: block;
+    background-color: #006400; /* Dark green button */
+    color: #fff; /* White text */
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin: 1rem auto;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+#load-data:hover {
+    background-color: #004b23; /* Slightly darker green */
+}
