@@ -12,20 +12,25 @@
             font-family: Arial, sans-serif;
             line-height: 1.6;
         }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             font-weight: bold;
             display: block;
             margin-bottom: 5px;
         }
-        input, textarea {
+
+        input,
+        textarea {
             width: 100%;
             padding: 10px;
             font-size: 1rem;
@@ -33,6 +38,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         button {
             background-color: #28a745;
             color: white;
@@ -41,22 +47,27 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #218838;
         }
+
         .reviews {
             margin-top: 30px;
         }
+
         .review {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 15px;
             margin-bottom: 15px;
         }
+
         .review h4 {
             margin: 0 0 10px;
             color: #555;
         }
+
         .review p {
             margin: 0;
         }
@@ -75,6 +86,7 @@
             </ul>
         </nav>
     </header>
+
     <div class="container">
         <h1>Recipe Reviews</h1>
         <p>Share your experience with the recipes you tried! Enter your username and leave a review below.</p>
@@ -93,18 +105,53 @@
 
         <div class="reviews" id="reviews">
             <h2>Recent Reviews</h2>
-            <!-- Reviews will be dynamically added here -->
         </div>
     </div>
 
     <script>
+        // Function to load saved reviews from localStorage
+        function loadReviews() {
+            const savedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            const reviewsContainer = document.getElementById('reviews');
+
+            savedReviews.forEach(review => {
+                const reviewContainer = document.createElement('div');
+                reviewContainer.classList.add('review');
+
+                const userHeader = document.createElement('h4');
+                userHeader.textContent = review.username;
+                reviewContainer.appendChild(userHeader);
+
+                const reviewText = document.createElement('p');
+                reviewText.textContent = review.review;
+                reviewContainer.appendChild(reviewText);
+
+                reviewsContainer.appendChild(reviewContainer);
+            });
+        }
+
         // Handle form submission
         document.getElementById('submit-review').onclick = function () {
             const username = document.getElementById('username').value.trim();
             const review = document.getElementById('review').value.trim();
 
             if (username && review) {
-                // Create a new review element
+                // Create a new review object
+                const newReview = {
+                    username: username,
+                    review: review
+                };
+
+                // Get saved reviews from localStorage or initialize an empty array
+                const savedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
+
+                // Add the new review to the saved reviews array
+                savedReviews.push(newReview);
+
+                // Save the updated reviews array to localStorage
+                localStorage.setItem('reviews', JSON.stringify(savedReviews));
+
+                // Create a new review element in the DOM
                 const reviewContainer = document.createElement('div');
                 reviewContainer.classList.add('review');
 
@@ -126,6 +173,9 @@
                 alert('Please fill out both fields before submitting your review.');
             }
         };
+
+        // Load saved reviews when the page is loaded
+        window.onload = loadReviews;
     </script>
 </body>
 

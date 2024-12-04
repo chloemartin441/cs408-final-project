@@ -11,26 +11,25 @@
 </head>
 
 <body>
-     <!-- Navigation Bar -->
-     <header>
+    <!-- Navigation Bar -->
+    <header>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="contact.html">Community</a></li>
                 <li><a href="shop.html">Shop</a></li>
-                <li><a href="grocery.html">Grocery List </a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
             </ul>
         </nav>
     </header>
+
     <h1>Grocery List App</h1>
 
     <form id="grocery-form">
-        <label for="id">Do I Have it at Home:</label>
+        <label for="id">Number of Items Needed:</label>
         <input type="text" id="id" name="id" required><br>
         <label for="name">Item Name:</label>
         <input type="text" id="name" name="name" required><br>
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" required><br>
         <button type="button" id="add-item">Add Item</button>
     </form>
 
@@ -39,14 +38,13 @@
     <table id="grocery-table" border="1">
         <thead>
             <tr>
-                <th>At Home</th>
+                <th>Number of Items</th>
                 <th>Food Name</th>
-                <th>Quantity Needed</th>
                 <th>Delete</th>
             </tr>
         </thead>
         <tbody id="table-body">
-
+            <!-- Table rows will be populated here -->
         </tbody>
     </table>
 
@@ -55,17 +53,16 @@
         document.getElementById("add-item").onclick = async function () {
             const id = document.getElementById("id").value;
             const name = document.getElementById("name").value;
-            const quantity = document.getElementById("quantity").value;
 
             try {
                 const response = await fetch("https://h6ffqnj4tl.execute-api.us-east-2.amazonaws.com/items", {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id, name, quantity })
+                    body: JSON.stringify({ id, name })
                 });
 
                 if (response.ok) {
-                    loadData(); // Refresh the table
+                    loadData(); // Refresh the table after adding the item
                 } else {
                     console.error("Error adding item:", await response.text());
                 }
@@ -80,25 +77,26 @@
                 const response = await fetch("https://h6ffqnj4tl.execute-api.us-east-2.amazonaws.com/items");
                 if (response.ok) {
                     const items = await response.json();
+                    console.log("API Response:", items); // Log API response for debugging
+
                     const tableBody = document.getElementById("table-body");
-                    tableBody.innerHTML = "";
+                    tableBody.innerHTML = ""; // Clear existing table rows
 
                     // Populate the table with grocery items
                     items.forEach(item => {
                         const row = document.createElement("tr");
 
+                        // At Home column
                         const idCell = document.createElement("td");
-                        idCell.textContent = item.id;
+                        idCell.textContent = item.id || "N/A"; // Use fallback if `id` is missing
                         row.appendChild(idCell);
 
+                        // Food Name column
                         const nameCell = document.createElement("td");
-                        nameCell.textContent = item.name;
+                        nameCell.textContent = item.name || "Unnamed"; // Use fallback if `name` is missing
                         row.appendChild(nameCell);
 
-                        const quantityCell = document.createElement("td");
-                        quantityCell.textContent = item.quantity;
-                        row.appendChild(quantityCell);
-
+                        // Delete button
                         const actionCell = document.createElement("td");
                         const deleteButton = document.createElement("button");
                         deleteButton.textContent = "Delete";
@@ -108,6 +106,7 @@
                         actionCell.appendChild(deleteButton);
                         row.appendChild(actionCell);
 
+                        // Append row to table body
                         tableBody.appendChild(row);
                     });
                 } else {
@@ -126,7 +125,7 @@
                 });
 
                 if (response.ok) {
-                    loadData(); // Refresh the table
+                    loadData(); // Refresh the table after deleting the item
                 } else {
                     console.error("Error deleting item:", await response.text());
                 }
